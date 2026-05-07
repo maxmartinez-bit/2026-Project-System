@@ -15,48 +15,69 @@ public class PaymentsController : ControllerBase
 
     // GET ALL
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Payments.ToListAsync());
+    public async Task<ActionResult<IEnumerable<Payment>>> GetAll()
+    {
+        return Ok(await _context.Payments.ToListAsync());
+    }
 
     // GET BY ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<Payment>> Get(int id)
     {
         var payment = await _context.Payments.FindAsync(id);
-        return payment == null ? NotFound() : Ok(payment);
+
+        if (payment == null)
+            return NotFound($"Payment with ID {id} not found.");
+
+        return Ok(payment);
     }
 
-    // CREATE
     [HttpPost]
-    public async Task<IActionResult> Create(Payment payment)
+    public async Task<ActionResult<Payment>> Create([FromBody] Payment payment)
     {
-        // ✅ default values
-        if (string.IsNullOrEmpty(payment.PaymentStatus))
-            payment.PaymentStatus = "Pending";
+    if (payment == null)
+        return BadRequest("Invalid payment data.");
 
-        payment.PaymentDate = DateTime.Now;
+    var invoice = await _context.Invoices
+        .FirstOrDefaultAsync(i => i.ReservationID == payment.ReservationID);
 
-        _context.Payments.Add(payment);
-        await _context.SaveChangesAsync();
+    if (invoice == null)
+        return BadRequest("No invoice found for this reservation.");
 
-        return CreatedAtAction(nameof(Get), new { id = payment.Id }, payment);
+    var totalDue = invoice.TotalAmount;
+
+    var totalPaid = await _context.Payments
+        .Where(p => p.ReservationID == payment.ReservationID)
+        .SumAsync(p => (decimal?)p.Amount) ?? 0;
+
+    var remaining = totalDue - totalPaid;
+
+    // optional: allow partial payment
+    if (payment.Amount > remaining)
+        return BadRequest($"Overpayment not allowed. Remaining balance: ₱{remaining}");
+
+    payment.PaymentDate = DateTime.UtcNow;
+
+    _context.Payments.Add(payment);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(Get), new { id = payment.PaymentID }, payment);
     }
 
-    // UPDATE (SAFE)
+    // UPDATE
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Payment payment)
+    public async Task<ActionResult<Payment>> Update(int id, [FromBody] Payment payment)
     {
-        if (id != payment.Id)
+        if (id != payment.PaymentID)
             return BadRequest("ID mismatch");
 
         var existing = await _context.Payments.FindAsync(id);
-        if (existing == null)
-            return NotFound();
 
-        existing.ReservationId = payment.ReservationId;
+        if (existing == null)
+            return NotFound($"Payment with ID {id} not found.");
+
+        existing.ReservationID = payment.ReservationID;
         existing.Amount = payment.Amount;
-        existing.PaymentMethod = payment.PaymentMethod;
-        existing.PaymentStatus = payment.PaymentStatus;
 
         await _context.SaveChangesAsync();
 
@@ -68,11 +89,13 @@ public class PaymentsController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var payment = await _context.Payments.FindAsync(id);
-        if (payment == null) return NotFound();
+
+        if (payment == null)
+            return NotFound($"Payment with ID {id} not found.");
 
         _context.Payments.Remove(payment);
         await _context.SaveChangesAsync();
 
-        return Ok("Payment deleted successfully");
+        return Ok(new { message = "Payment deleted successfully" });
     }
 }

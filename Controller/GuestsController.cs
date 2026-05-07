@@ -15,22 +15,32 @@ public class GuestsController : ControllerBase
 
     // GET ALL
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Guests.ToListAsync());
+    public async Task<ActionResult<IEnumerable<Guest>>> GetAll()
+    {
+        var guests = await _context.Guests.ToListAsync();
+        return Ok(guests);
+    }
 
     // GET BY ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<Guest>> Get(int id)
     {
         var guest = await _context.Guests.FindAsync(id);
-        return guest == null ? NotFound() : Ok(guest);
+
+        if (guest == null)
+            return NotFound($"Guest with ID {id} not found.");
+
+        return Ok(guest);
     }
 
     // CREATE
     [HttpPost]
-    public async Task<IActionResult> Create(Guest guest)
+    public async Task<ActionResult<Guest>> Create([FromBody] Guest guest)
     {
-        guest.CreatedAt = DateTime.Now;
+        if (guest == null)
+            return BadRequest("Invalid guest data.");
+
+        guest.CreatedAt = DateTime.UtcNow;
 
         _context.Guests.Add(guest);
         await _context.SaveChangesAsync();
@@ -40,19 +50,20 @@ public class GuestsController : ControllerBase
 
     // UPDATE
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Guest guest)
+    public async Task<ActionResult<Guest>> Update(int id, [FromBody] Guest guest)
     {
         if (id != guest.Id)
             return BadRequest("ID mismatch");
 
         var existing = await _context.Guests.FindAsync(id);
-        if (existing == null)
-            return NotFound();
 
-        existing.FullName = guest.FullName;
-        existing.ContactNumber = guest.ContactNumber;
-        existing.Address = guest.Address;
-        existing.Email = guest.Email;
+        if (existing == null)
+            return NotFound($"Guest with ID {id} not found.");
+
+        // keep CreatedAt original (important)
+        guest.CreatedAt = existing.CreatedAt;
+
+        _context.Entry(existing).CurrentValues.SetValues(guest);
 
         await _context.SaveChangesAsync();
 
@@ -64,11 +75,13 @@ public class GuestsController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var guest = await _context.Guests.FindAsync(id);
-        if (guest == null) return NotFound();
+
+        if (guest == null)
+            return NotFound($"Guest with ID {id} not found.");
 
         _context.Guests.Remove(guest);
         await _context.SaveChangesAsync();
 
-        return Ok("Guest deleted successfully");
+        return Ok(new { message = "Guest deleted successfully" });
     }
 }

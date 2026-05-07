@@ -3,23 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Beach_Resort_Management_System.Models;
 
+[Table("payments")]
 public class Payment
 {
     [Key]
-    [Column("payment_id")]
-    public int Id { get; set; }
+    [Column("PaymentID")]
+    public int PaymentID { get; set; }
 
-    [Column("reservation_id")]
-    public int ReservationId { get; set; }
+    [Column("ReservationID")]
+    public int ReservationID { get; set; }
 
+    [Column("Amount")]
     public decimal Amount { get; set; }
 
-    [Column("payment_method")]
-    public string? PaymentMethod { get; set; }
-
-    [Column("payment_status")]
-    public string? PaymentStatus { get; set; }
-
-    [Column("payment_date")]
+    [Column("PaymentDate")]
     public DateTime PaymentDate { get; set; }
 }

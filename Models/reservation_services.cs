@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Beach_Resort_Management_System.Models;
 
+[Table("reservation_services")] // ✅ ADD THIS
 public class ReservationService
 {
     [Key]
@@ -14,6 +15,7 @@ public class ReservationService
     [Column("service_id")]
     public int ServiceId { get; set; }
 
+    [Column("quantity")]
     public int Quantity { get; set; }
 
     [Column("total_price")]

@@ -15,42 +15,99 @@ public class ReservationsController : ControllerBase
 
     // GET ALL
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Reservations.ToListAsync());
+    public async Task<ActionResult<IEnumerable<Reservation>>> GetAll()
+    {
+        return Ok(await _context.Reservations.ToListAsync());
+    }
 
     // GET BY ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<Reservation>> Get(int id)
     {
         var data = await _context.Reservations.FindAsync(id);
-        return data == null ? NotFound() : Ok(data);
+
+        if (data == null)
+            return NotFound($"Reservation {id} not found.");
+
+        return Ok(data);
     }
 
     // CREATE
-    [HttpPost]
-    public async Task<IActionResult> Create(Reservation reservation)
+[HttpPost]
+public async Task<ActionResult<Reservation>> Create(
+    [FromBody] Reservation reservation)
+{
+    // VALIDATE DATES
+    if (reservation.CheckOutDate <= reservation.CheckInDate)
     {
-        _context.Reservations.Add(reservation);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(Get), new { id = reservation.Id }, reservation);
+        return BadRequest(
+            "Check-out must be after check-in."
+        );
     }
 
-    // UPDATE (SAFE)
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Reservation reservation)
+    // =========================================
+    // CHECK ROOM
+    // =========================================
+    var room = await _context.Rooms
+        .FirstOrDefaultAsync(r =>
+            r.RoomID == reservation.RoomID);
+
+    if (room == null)
     {
-        if (id != reservation.Id)
+        return BadRequest("Room not found.");
+    }
+
+    // =========================================
+    // BLOCK NON-AVAILABLE ROOMS
+    // =========================================
+    if (room.Status != "Available")
+    {
+        return BadRequest(
+            $"Room is currently {room.Status}."
+        );
+    }
+
+    // =========================================
+    // DEFAULT STATUS
+    // =========================================
+    reservation.Status = "Reserved";
+
+    // SAVE RESERVATION
+    _context.Reservations.Add(reservation);
+
+    // =========================================
+    // CHANGE ROOM STATUS TO OCCUPIED
+    // =========================================
+    room.Status = "Occupied";
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Reservation created successfully"
+    });
+}
+
+    // UPDATE
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Reservation>> Update(int id, [FromBody] Reservation reservation)
+    {
+        if (id != reservation.ReservationID)
             return BadRequest("ID mismatch");
 
         var existing = await _context.Reservations.FindAsync(id);
-        if (existing == null)
-            return NotFound();
 
-        existing.GuestId = reservation.GuestId;
-        existing.CheckIn = reservation.CheckIn;
-        existing.CheckOut = reservation.CheckOut;
-        existing.TotalAmount = reservation.TotalAmount;
+        if (existing == null)
+            return NotFound($"Reservation {id} not found.");
+
+        if (reservation.CheckOutDate <= reservation.CheckInDate)
+            return BadRequest("Invalid date range.");
+
+        existing.GuestID = reservation.GuestID;
+        existing.RoomID = reservation.RoomID;
+        existing.CheckInDate = reservation.CheckInDate;
+        existing.CheckOutDate = reservation.CheckOutDate;
+        existing.Status = reservation.Status;
 
         await _context.SaveChangesAsync();
 
@@ -62,11 +119,13 @@ public class ReservationsController : ControllerBase
     public async Task<IActionResult> Delete(int id)
     {
         var data = await _context.Reservations.FindAsync(id);
-        if (data == null) return NotFound();
+
+        if (data == null)
+            return NotFound($"Reservation {id} not found.");
 
         _context.Reservations.Remove(data);
         await _context.SaveChangesAsync();
 
-        return Ok("Deleted");
+        return Ok(new { message = "Reservation deleted successfully" });
     }
 }

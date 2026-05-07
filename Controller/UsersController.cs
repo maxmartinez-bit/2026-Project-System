@@ -1,71 +1,115 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Beach_Resort_Management_System.Models;
-using BCrypt.Net;
+using Beach_Resort_Management_System.Dto;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly AppDbContext _context;
 
-    public UsersController(AppDbContext context)
+    public UserController(AppDbContext context)
     {
         _context = context;
     }
 
+    // =========================================
+    // GET ALL USERS
+    // =========================================
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Users.ToListAsync());
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> GetUsers()
     {
-        var user = await _context.Users.FindAsync(id);
-        return user == null ? NotFound() : Ok(user);
+        var users = await _context.Users
+            .Select(u => new
+            {
+                u.Id,
+                u.Username,
+                u.Role,
+                u.CreatedAt
+            })
+            .ToListAsync();
+
+        return Ok(users);
     }
 
-    [HttpPost]
-    public IActionResult Create(UserDto dto)
+    // =========================================
+    // REGISTER USER / STAFF
+    // =========================================
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] User user)
     {
-        var user = new User
-        {
-            Username = dto.Username,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            Role = dto.Role,
-            Email = dto.Email,
-            
-        };
+        if (_context.Users.Any(u => u.Username == user.Username))
+            return BadRequest("Username already exists");
+
+        user.Password =
+            BCrypt.Net.BCrypt.HashPassword(user.Password);
+
+        user.Role =
+            string.IsNullOrEmpty(user.Role)
+            ? "Staff"
+            : user.Role;
+
+        user.CreatedAt = DateTime.UtcNow;
 
         _context.Users.Add(user);
-        _context.SaveChanges();
 
-        // ✅ FIXED: use user.Id
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, User user)
-    {
-        // ✅ FIXED: use user.Id
-        if (id != user.Id)
-            return BadRequest("ID mismatch");
-
-        _context.Entry(user).State = EntityState.Modified;
         await _context.SaveChangesAsync();
 
-        return Ok(user);
+        return Ok(new
+        {
+            message = "User created successfully"
+        });
     }
 
+    // =========================================
+    // LOGIN
+    // =========================================
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginDto request)
+    {
+        var user = _context.Users
+            .FirstOrDefault(u =>
+                u.Username == request.Username);
+
+        if (user == null)
+            return Unauthorized("Invalid username");
+
+        bool isValid =
+            BCrypt.Net.BCrypt.Verify(
+                request.Password,
+                user.Password
+            );
+
+        if (!isValid)
+            return Unauthorized("Invalid password");
+
+        return Ok(new
+        {
+            user.Id,
+            user.Username,
+            user.Role
+        });
+    }
+
+    // =========================================
+    // DELETE USER
+    // =========================================
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var user = await _context.Users.FindAsync(id);
-        if (user == null) return NotFound();
+
+        if (user == null)
+            return NotFound("User not found");
 
         _context.Users.Remove(user);
+
         await _context.SaveChangesAsync();
 
-        return Ok("User deleted successfully");
+        return Ok(new
+        {
+            message = "User deleted successfully"
+        });
     }
 }

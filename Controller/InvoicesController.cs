@@ -13,85 +13,160 @@ public class InvoicesController : ControllerBase
         _context = context;
     }
 
+    // =========================================
     // GET ALL
+    // =========================================
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Invoices.ToListAsync());
-
-    // GET BY ID
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<IEnumerable<Invoice>>> GetAll()
     {
-        var invoice = await _context.Invoices.FindAsync(id);
-        return invoice == null ? NotFound() : Ok(invoice);
+        return Ok(await _context.Invoices.ToListAsync());
     }
 
-    // CREATE (AUTO COMPUTE 🔥)
-    [HttpPost]
-    public async Task<IActionResult> Create(Invoice invoice)
+    // =========================================
+    // GET BY ID
+    // =========================================
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Invoice>> Get(int id)
     {
-        // get reservation
-        var reservation = await _context.Reservations.FindAsync(invoice.ReservationId);
+        var invoice = await _context.Invoices.FindAsync(id);
+
+        if (invoice == null)
+            return NotFound($"Invoice {id} not found.");
+
+        return Ok(invoice);
+    }
+
+    // =========================================
+    // CREATE INVOICE
+    // =========================================
+    [HttpPost]
+    public async Task<ActionResult<Invoice>> Create([FromBody] Invoice invoice)
+    {
+        // 🔍 FIND RESERVATION
+        var reservation = await _context.Reservations
+            .FirstOrDefaultAsync(r =>
+                r.ReservationID == invoice.ReservationID);
+
         if (reservation == null)
-            return BadRequest("Reservation not found");
+            return BadRequest("Reservation not found.");
 
-        // get all services linked
+        // 🔍 FIND ROOM
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(r =>
+                r.RoomID == reservation.RoomID);
+
+        if (room == null)
+            return BadRequest("Room not found.");
+
+        // =========================================
+        // CALCULATE NUMBER OF NIGHTS
+        // =========================================
+        var nights =
+            (reservation.CheckOutDate -
+             reservation.CheckInDate).Days;
+
+        // minimum 1 night
+        if (nights <= 0)
+            nights = 1;
+
+        // =========================================
+        // ROOM TOTAL
+        // =========================================
+        var roomTotal = room.Price * nights;
+
+        // =========================================
+        // SERVICES TOTAL
+        // =========================================
         var servicesTotal = await _context.ReservationServices
-            .Where(x => x.ReservationId == invoice.ReservationId)
-            .SumAsync(x => (decimal?)x.TotalPrice) ?? 0;
+            .Where(x =>
+                x.ReservationId == invoice.ReservationID)
+            .SumAsync(x =>
+                (decimal?)x.TotalPrice) ?? 0;
 
-        // subtotal = reservation + services
-        invoice.Subtotal = reservation.TotalAmount + servicesTotal;
+        // =========================================
+        // GRAND TOTAL
+        // =========================================
+        invoice.TotalAmount =
+            roomTotal + servicesTotal;
 
-        // tax (example: 10%)
-        invoice.Tax = invoice.Subtotal * 0.10m;
+        invoice.CreatedAt = DateTime.UtcNow;
 
-        // discount (default 0 if not provided)
-        invoice.Discount = invoice.Discount;
+        // =========================================
+        // CHECK IF INVOICE ALREADY EXISTS
+        // =========================================
+        var existingInvoice = await _context.Invoices
+            .FirstOrDefaultAsync(i =>
+                i.ReservationID == invoice.ReservationID);
 
-        // total
-        invoice.Total = invoice.Subtotal + invoice.Tax - invoice.Discount;
+        if (existingInvoice != null)
+        {
+            // UPDATE EXISTING
+            existingInvoice.TotalAmount =
+                invoice.TotalAmount;
 
-        // set date
-        invoice.IssuedDate = DateTime.Now;
+            existingInvoice.CreatedAt =
+                DateTime.UtcNow;
 
+            await _context.SaveChangesAsync();
+
+            return Ok(existingInvoice);
+        }
+
+        // =========================================
+        // SAVE NEW
+        // =========================================
         _context.Invoices.Add(invoice);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(Get), new { id = invoice.Id }, invoice);
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = invoice.InvoiceID },
+            invoice
+        );
     }
 
+    // =========================================
     // UPDATE
+    // =========================================
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Invoice invoice)
+    public async Task<ActionResult<Invoice>> Update(
+        int id,
+        [FromBody] Invoice invoice)
     {
-        if (id != invoice.Id)
+        if (id != invoice.InvoiceID)
             return BadRequest("ID mismatch");
 
-        var existing = await _context.Invoices.FindAsync(id);
+        var existing = await _context.Invoices
+            .FindAsync(id);
+
         if (existing == null)
-            return NotFound();
+            return NotFound($"Invoice {id} not found.");
 
-        existing.Discount = invoice.Discount;
-
-        // recompute total
-        existing.Total = existing.Subtotal + existing.Tax - existing.Discount;
+        existing.TotalAmount = invoice.TotalAmount;
 
         await _context.SaveChangesAsync();
 
         return Ok(existing);
     }
 
+    // =========================================
     // DELETE
+    // =========================================
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var invoice = await _context.Invoices.FindAsync(id);
-        if (invoice == null) return NotFound();
+        var invoice = await _context.Invoices
+            .FindAsync(id);
+
+        if (invoice == null)
+            return NotFound($"Invoice {id} not found.");
 
         _context.Invoices.Remove(invoice);
         await _context.SaveChangesAsync();
 
-        return Ok("Invoice deleted successfully");
+        return Ok(new
+        {
+            message = "Invoice deleted successfully"
+        });
     }
 }

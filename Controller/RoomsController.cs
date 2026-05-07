@@ -13,65 +13,77 @@ public class RoomsController : ControllerBase
         _context = context;
     }
 
-    // ✅ GET ALL
+    // GET ALL
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Rooms.ToListAsync());
-
-    // ✅ GET BY ID
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<IEnumerable<Room>>> GetAll()
     {
-        var room = await _context.Rooms.FindAsync(id);
-        return room == null ? NotFound() : Ok(room);
+        var rooms = await _context.Rooms.ToListAsync();
+        return Ok(rooms);
     }
 
-    // ✅ CREATE
-    [HttpPost]
-    public async Task<IActionResult> Create(Room room)
+    // GET BY ID
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Room>> Get(int id)
     {
-        // ✅ default value if none provided
-        if (string.IsNullOrEmpty(room.Availability))
-            room.Availability = "Available";
+        var room = await _context.Rooms.FindAsync(id);
+
+        if (room == null)
+            return NotFound($"Room with ID {id} not found.");
+
+        return Ok(room);
+    }
+
+    // CREATE
+    [HttpPost]
+    public async Task<ActionResult<Room>> Create([FromBody] Room room)
+    {
+        if (room == null)
+            return BadRequest("Invalid room data.");
+
+        if (string.IsNullOrEmpty(room.Status))
+            room.Status = "Available";
 
         _context.Rooms.Add(room);
         await _context.SaveChangesAsync();
 
-        // ✅ proper REST response
-        return CreatedAtAction(nameof(Get), new { id = room.Id }, room);
+        return CreatedAtAction(nameof(Get), new { id = room.RoomID }, room);
     }
 
-    // ✅ UPDATE
+    // UPDATE
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Room room)
+    public async Task<ActionResult<Room>> Update(int id, [FromBody] Room room)
     {
-        if (id != room.Id)
+        if (id != room.RoomID)
             return BadRequest("ID mismatch");
 
-        var existingRoom = await _context.Rooms.FindAsync(id);
-        if (existingRoom == null)
-            return NotFound();
+        var existing = await _context.Rooms.FindAsync(id);
 
-        // ✅ update only fields
-        existingRoom.RoomName = room.RoomName;
-        existingRoom.Price = room.Price;
-        existingRoom.Availability = room.Availability;
+        if (existing == null)
+            return NotFound($"Room with ID {id} not found.");
+
+        // update fields
+        existing.RoomNumber = room.RoomNumber;
+        existing.RoomType = room.RoomType;
+        existing.Price = room.Price;
+        existing.Status = room.Status;
 
         await _context.SaveChangesAsync();
 
-        return Ok(existingRoom);
+        return Ok(existing);
     }
 
-    // ✅ DELETE
+    // DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         var room = await _context.Rooms.FindAsync(id);
-        if (room == null) return NotFound();
+
+        if (room == null)
+            return NotFound($"Room with ID {id} not found.");
 
         _context.Rooms.Remove(room);
         await _context.SaveChangesAsync();
 
-        return Ok("Room deleted successfully");
+        return Ok(new { message = "Room deleted successfully" });
     }
 }

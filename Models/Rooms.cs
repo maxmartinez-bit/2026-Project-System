@@ -6,14 +6,18 @@ namespace Beach_Resort_Management_System.Models;
 public class Room
 {
     [Key]
-    [Column("room_id")]
-    public int Id { get; set; }
+    [Column("RoomID")]
+    public int RoomID { get; set; }
 
-    [Column("room_name")]
-    public required string RoomName { get; set; }   // ✅ FIX
+    [Column("RoomNumber")]
+    public string? RoomNumber { get; set; }
 
+    [Column("RoomType")]
+    public string? RoomType { get; set; }
+
+    [Column("Price")]
     public decimal Price { get; set; }
 
-    [Column("availability")]
-    public required string Availability { get; set; }  // ✅ FIX
+    [Column("Status")]
+    public string? Status { get; set; } = "Available";
 }

@@ -13,67 +13,163 @@ public class MaintenanceController : ControllerBase
         _context = context;
     }
 
+    // =========================================
     // GET ALL
+    // =========================================
     [HttpGet]
-    public async Task<IActionResult> GetAll()
-        => Ok(await _context.Maintenance.ToListAsync());
+    public async Task<ActionResult<IEnumerable<Maintenance>>> GetAll()
+    {
+        return Ok(await _context.Maintenance.ToListAsync());
+    }
 
+    // =========================================
     // GET BY ID
+    // =========================================
     [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<Maintenance>> Get(int id)
     {
         var data = await _context.Maintenance.FindAsync(id);
-        return data == null ? NotFound() : Ok(data);
+
+        if (data == null)
+            return NotFound($"Maintenance {id} not found.");
+
+        return Ok(data);
     }
 
+    // =========================================
     // CREATE
+    // =========================================
     [HttpPost]
-    public async Task<IActionResult> Create(Maintenance maintenance)
+    public async Task<ActionResult<Maintenance>> Create(
+        [FromBody] Maintenance maintenance)
     {
-        // default values
-        maintenance.Status = "Pending";
-        maintenance.ReportedAt = DateTime.Now;
+        if (maintenance == null)
+            return BadRequest("Invalid maintenance data.");
+
+        // FIND ROOM
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(r =>
+                r.RoomID == maintenance.RoomID);
+
+        if (room == null)
+            return BadRequest("Room not found.");
+
+        // DEFAULT STATUS
+        if (string.IsNullOrEmpty(maintenance.Status))
+        {
+            maintenance.Status = "Pending";
+        }
+
+        // =========================================
+        // AUTO ROOM STATUS
+        // =========================================
+        if (
+            maintenance.Status == "Pending" ||
+            maintenance.Status == "Ongoing"
+        )
+        {
+            room.Status = "Maintenance";
+        }
+
+        if (maintenance.Status == "Fixed")
+        {
+            room.Status = "Available";
+        }
+
+        maintenance.DateReported = DateTime.UtcNow;
 
         _context.Maintenance.Add(maintenance);
+
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(Get), new { id = maintenance.Id }, maintenance);
+        return CreatedAtAction(
+            nameof(Get),
+            new { id = maintenance.MaintenanceID },
+            maintenance
+        );
     }
 
-    // UPDATE (SAFE)
+    // =========================================
+    // UPDATE
+    // =========================================
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, Maintenance maintenance)
+    public async Task<ActionResult<Maintenance>> Update(
+        int id,
+        [FromBody] Maintenance maintenance)
     {
-        if (id != maintenance.Id)
+        if (id != maintenance.MaintenanceID)
             return BadRequest("ID mismatch");
 
-        var existing = await _context.Maintenance.FindAsync(id);
-        if (existing == null)
-            return NotFound();
+        var existing = await _context.Maintenance
+            .FindAsync(id);
 
-        existing.RoomId = maintenance.RoomId;
-        existing.IssueDescription = maintenance.IssueDescription;
+        if (existing == null)
+            return NotFound($"Maintenance {id} not found.");
+
+        // FIND ROOM
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(r =>
+                r.RoomID == maintenance.RoomID);
+
+        if (room == null)
+            return BadRequest("Room not found.");
+
+        // UPDATE MAINTENANCE
+        existing.RoomID = maintenance.RoomID;
+        existing.Description = maintenance.Description;
         existing.Status = maintenance.Status;
 
-        // auto set resolved date if completed
-        if (maintenance.Status == "Resolved")
-            existing.ResolvedAt = DateTime.Now;
+        // =========================================
+        // AUTO ROOM STATUS
+        // =========================================
+        if (
+            maintenance.Status == "Pending" ||
+            maintenance.Status == "Ongoing"
+        )
+        {
+            room.Status = "Maintenance";
+        }
+
+        if (maintenance.Status == "Fixed")
+        {
+            room.Status = "Available";
+        }
 
         await _context.SaveChangesAsync();
 
         return Ok(existing);
     }
 
+    // =========================================
     // DELETE
+    // =========================================
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var data = await _context.Maintenance.FindAsync(id);
-        if (data == null) return NotFound();
+        var data = await _context.Maintenance
+            .FindAsync(id);
+
+        if (data == null)
+            return NotFound($"Maintenance {id} not found.");
+
+        // OPTIONAL:
+        // ibalik available after delete
+        var room = await _context.Rooms
+            .FirstOrDefaultAsync(r =>
+                r.RoomID == data.RoomID);
+
+        if (room != null)
+        {
+            room.Status = "Available";
+        }
 
         _context.Maintenance.Remove(data);
+
         await _context.SaveChangesAsync();
 
-        return Ok("Maintenance record deleted");
+        return Ok(new
+        {
+            message = "Maintenance deleted successfully"
+        });
     }
 }

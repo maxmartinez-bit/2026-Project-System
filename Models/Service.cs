@@ -15,8 +15,12 @@ public class Service
     [Column("description")]
     public string? Description { get; set; }
 
+    [Column("price")] // ✅ ADD THIS (IMPORTANT)
     public decimal Price { get; set; }
 
     [Column("status")]
     public string? Status { get; set; }
+
+    [Column("category")]
+    public string? Category { get; set; }
 }

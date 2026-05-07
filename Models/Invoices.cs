@@ -6,20 +6,15 @@ namespace Beach_Resort_Management_System.Models;
 public class Invoice
 {
     [Key]
-    [Column("invoice_id")]
-    public int Id { get; set; }
+    [Column("InvoiceID")]
+    public int InvoiceID { get; set; }
 
-    [Column("reservation_id")]
-    public int ReservationId { get; set; }
+    [Column("ReservationID")]
+    public int ReservationID { get; set; }
 
-    public decimal Subtotal { get; set; }
+    [Column("TotalAmount")]
+    public decimal TotalAmount { get; set; }
 
-    public decimal Tax { get; set; }
-
-    public decimal Discount { get; set; }
-
-    public decimal Total { get; set; }
-
-    [Column("issued_date")]
-    public DateTime IssuedDate { get; set; }
+    [Column("CreatedAt")]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
