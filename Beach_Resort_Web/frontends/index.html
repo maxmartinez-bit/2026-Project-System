@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Beach Resort</title>
+<link rel="icon" type="image/png" href="../image/logo.png">
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;
+    color: white;
+    text-align: center;
+}
+
+.box {
+    background: rgba(0,0,0,0.4);
+    padding: 40px;
+    border-radius: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #00bcd4;
+    color: white;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+    <h1>🏖️ Beach Resort System</h1>
+    <p>Welcome to our Management System</p>
+
+    <button onclick="goLogin()">Get Started</button>
+</div>
+
+<script>
+function goLogin() {
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

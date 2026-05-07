@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Guests</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+
+.page-title{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.content{
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+/* FORM */
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-grid input{
+    width:100%;
+    height:55px;
+    padding:0 16px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    font-size:15px;
+    box-sizing:border-box;
+    background:rgba(255,255,255,0.92);
+}
+
+.form-grid button{
+    grid-column:span 2;
+    height:55px;
+}
+
+/* BUTTONS */
+button{
+    background:#00bcd4;
+    color:white;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0097a7;
+}
+
+.btn-delete{
+    background:#ff5252;
+    padding:10px 18px;
+}
+
+.btn-delete:hover{
+    background:#d32f2f;
+}
+
+.btn-edit{
+    background:#ff9800;
+    padding:10px 18px;
+}
+
+.btn-edit:hover{
+    background:#ef6c00;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:rgba(255,255,255,0.15);
+    padding:15px;
+    text-align:left;
+    font-size:16px;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.action-buttons{
+    display:flex;
+    gap:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="content">
+
+<h1 class="page-title">👥 Guest Management</h1>
+
+<!-- ADD GUEST -->
+<div class="card">
+
+    <h2>Add Guest</h2>
+
+    <div class="form-grid">
+
+        <input id="name" placeholder="Full Name">
+
+        <input id="contact" placeholder="Contact Number">
+
+        <input id="address" placeholder="Address">
+
+        <input id="email" placeholder="Email">
+
+        <button onclick="addGuest()">Add Guest</button>
+
+    </div>
+
+</div>
+
+<!-- GUEST LIST -->
+<div class="card">
+
+    <h2>Guest List</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="table"></tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+// ELEMENTS
+const name = document.getElementById("name");
+const contact = document.getElementById("contact");
+const address = document.getElementById("address");
+const email = document.getElementById("email");
+const table = document.getElementById("table");
+
+// 🔐 SECURITY
+if(!localStorage.getItem("role")){
+    window.location.href = "../login.html";
+}
+
+// 📥 LOAD GUESTS
+async function loadGuests(){
+
+    try{
+
+        const res =
+            await fetch(`${API}/Guests`);
+
+        const data = await res.json();
+
+        table.innerHTML = data.map(g => `
+
+            <tr>
+
+                <td>${g.fullName}</td>
+
+                <td>${g.contactNumber}</td>
+
+                <td>${g.address || "N/A"}</td>
+
+                <td>${g.email}</td>
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <button class="btn-edit"
+                        onclick="editGuest(
+                            ${g.id},
+                            '${g.fullName}',
+                            '${g.contactNumber}',
+                            '${g.address}',
+                            '${g.email}'
+                        )">
+                            Edit
+                        </button>
+
+                        <button class="btn-delete"
+                        onclick="deleteGuest(${g.id})">
+                            Delete
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+
+    }catch(err){
+
+        console.error(err);
+        alert("Failed to load guests");
+
+    }
+}
+
+// ➕ ADD GUEST
+async function addGuest(){
+
+    if(!name.value || !contact.value){
+
+        alert("Please fill required fields");
+        return;
+    }
+
+    try{
+
+        const res = await fetch(`${API}/Guests`,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                fullName: name.value,
+                contactNumber: contact.value,
+                address: address.value,
+                email: email.value
+
+            })
+        });
+
+        if(!res.ok){
+
+            alert("Failed to add guest");
+            return;
+        }
+
+        alert("Guest added!");
+
+        clearForm();
+
+        loadGuests();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
+
+// ✏️ EDIT
+async function editGuest(
+    id,
+    fullName,
+    contactNumber,
+    addressVal,
+    emailVal
+){
+
+    const newName =
+        prompt("Edit Guest Name:", fullName);
+
+    if(!newName) return;
+
+    try{
+
+        await fetch(`${API}/Guests/${id}`,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                id:id,
+                fullName:newName,
+                contactNumber:contactNumber,
+                address:addressVal,
+                email:emailVal
+
+            })
+        });
+
+        alert("Guest updated!");
+
+        loadGuests();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
+
+// ❌ DELETE
+async function deleteGuest(id){
+
+    if(!confirm("Delete this guest?")) return;
+
+    try{
+
+        await fetch(`${API}/Guests/${id}`,{
+            method:"DELETE"
+        });
+
+        alert("Guest deleted!");
+
+        loadGuests();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
+
+// 🧹 CLEAR
+function clearForm(){
+
+    name.value = "";
+    contact.value = "";
+    address.value = "";
+    email.value = "";
+}
+
+// INIT
+loadGuests();
+
+</script>
+
+</body>
+</html>

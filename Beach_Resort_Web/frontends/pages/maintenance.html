@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Maintenance Management</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    color:white;
+}
+
+/* PAGE */
+.page-title{
+    font-size:38px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(8px);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:25px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+/* FORM */
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-grid textarea,
+.form-grid button{
+    grid-column:span 2;
+}
+
+/* INPUTS */
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    background:rgba(255,255,255,0.9);
+    font-size:15px;
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+/* BUTTON */
+button{
+    background:#00bcd4;
+    color:white;
+    border:none;
+    padding:14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0097a7;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    text-align:left;
+}
+
+table td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* BADGES */
+.badge{
+    padding:7px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+    color:white;
+}
+
+.pending{
+    background:#ff9800;
+}
+
+.progress{
+    background:#03a9f4;
+}
+
+.done{
+    background:#00c853;
+}
+
+/* DELETE */
+.btn-delete{
+    background:#ff5252;
+    padding:10px 15px;
+    border-radius:10px;
+    border:none;
+    color:white;
+    cursor:pointer;
+}
+
+.btn-delete:hover{
+    background:#d32f2f;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 class="page-title">🛠 Maintenance Management</h1>
+
+<!-- ADD MAINTENANCE -->
+<div class="card">
+
+    <h2 style="margin-bottom:20px;">
+        Add Maintenance Request
+    </h2>
+
+    <div class="form-grid">
+
+        <!-- ROOM -->
+        <select id="room"></select>
+
+        <!-- STATUS -->
+        <select id="status">
+
+            <option value="Pending">
+                Pending
+            </option>
+
+            <option value="Ongoing">
+                Ongoing
+            </option>
+
+            <option value="Fixed">
+                Fixed
+            </option>
+
+        </select>
+
+        <!-- DESCRIPTION -->
+        <textarea
+            id="description"
+            placeholder="Maintenance Description"></textarea>
+
+        <button onclick="addMaintenance()">
+            Save Maintenance
+        </button>
+
+    </div>
+
+</div>
+
+<!-- TABLE -->
+<div class="card">
+
+    <h2 style="margin-bottom:20px;">
+        Maintenance List
+    </h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Room</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Date Reported</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="table"></tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+/* ELEMENTS */
+const room =
+document.getElementById("room");
+
+const description =
+document.getElementById("description");
+
+const status =
+document.getElementById("status");
+
+const table =
+document.getElementById("table");
+
+/* LOAD ROOMS */
+async function loadRooms(){
+
+    try{
+
+        const res =
+        await fetch(`${API}/Rooms`);
+
+        const rooms =
+        await res.json();
+
+        room.innerHTML =
+        `
+            <option value="">
+                Select Room
+            </option>
+        ` +
+        rooms.map(r => `
+            <option value="${r.roomID}">
+                Room ${r.roomNumber}
+            </option>
+        `).join("");
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert("Failed to load rooms");
+
+    }
+
+}
+
+/* LOAD MAINTENANCE */
+async function load(){
+
+    try{
+
+        const maintenanceRes =
+        await fetch(`${API}/Maintenance`);
+
+        const roomRes =
+        await fetch(`${API}/Rooms`);
+
+        const data =
+        await maintenanceRes.json();
+
+        const rooms =
+        await roomRes.json();
+
+        table.innerHTML = data.map(m => {
+
+            const roomData =
+            rooms.find(r => r.roomID === m.roomID);
+
+            return `
+
+            <tr>
+
+                <td>
+                    ${
+                        roomData
+                        ? "Room " + roomData.roomNumber
+                        : "Unknown Room"
+                    }
+                </td>
+
+                <td>
+                    ${m.description || "No Description"}
+                </td>
+
+                <td>
+
+                    <span class="badge
+                        ${
+                            m.status === "Pending"
+                            ? "pending"
+                            : m.status === "Ongoing"
+                            ? "progress"
+                            : "done"
+                        }">
+
+                        ${m.status}
+
+                    </span>
+
+                </td>
+
+                <td>
+                    ${
+                        new Date(
+                            m.dateReported
+                        ).toLocaleDateString()
+                    }
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn-delete"
+                        onclick="del(${m.maintenanceID})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        }).join("");
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert("Failed to load maintenance");
+
+    }
+
+}
+
+/* ADD */
+async function addMaintenance(){
+
+    if(
+        !room.value ||
+        !description.value
+    ){
+        alert("Fill all fields");
+        return;
+    }
+
+    try{
+
+        await fetch(`${API}/Maintenance`,{
+
+            method:"POST",
+
+            headers:{
+                'Content-Type':'application/json'
+            },
+
+            body:JSON.stringify({
+
+                roomID:parseInt(room.value),
+                description:description.value,
+                status:status.value
+
+            })
+
+        });
+
+        // CLEAR
+        room.value = "";
+        description.value = "";
+        status.value = "Pending";
+
+        load();
+
+        alert("Maintenance added successfully");
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert("Failed to add maintenance");
+
+    }
+
+}
+
+/* DELETE */
+async function del(id){
+
+    if(!confirm("Delete maintenance?"))
+        return;
+
+    try{
+
+        await fetch(
+            `${API}/Maintenance/${id}`,
+            {
+                method:"DELETE"
+            }
+        );
+
+        load();
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        alert("Delete failed");
+
+    }
+
+}
+
+/* INIT */
+loadRooms();
+load();
+
+</script>
+
+</body>
+</html>

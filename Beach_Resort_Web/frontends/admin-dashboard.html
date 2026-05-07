@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="icon" type="image/png" href="../image/logo.png">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    display:flex;
+    min-height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),
+    url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')
+    no-repeat center center/cover;
+    color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+    background:rgba(0,0,0,0.45);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    position:fixed;
+    left:0;
+    top:0;
+    border-right:1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar h2{
+    margin-bottom:30px;
+    font-size:24px;
+}
+
+.sidebar p{
+    margin-bottom:25px;
+    color:#ddd;
+    font-size:15px;
+}
+
+/* LINKS */
+.sidebar a{
+    display:block;
+    width:100%;
+    text-decoration:none;
+    color:white;
+    padding:14px 16px;
+    border-radius:10px;
+    margin-bottom:8px;
+    transition:0.3s;
+    font-size:16px;
+    font-weight:500;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,0.15);
+}
+
+.sidebar a:focus{
+    outline:none;
+    background:rgba(255,255,255,0.15);
+}
+
+/* DARK MODE BUTTON */
+.sidebar button{
+    width:100%;
+    margin-top:10px;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00bcd4;
+    color:white;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.sidebar button:hover{
+    background:#0097a7;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:30px;
+}
+
+/* DASHBOARD */
+#dashboardContent h1{
+    font-size:50px;
+    margin-bottom:25px;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(8px);
+    border-radius:20px;
+    padding:30px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#ddd;
+    font-size:18px;
+}
+
+/* CHART */
+.chart-card{
+    background:rgba(255,255,255,0.12);
+    border-radius:20px;
+    padding:25px;
+    backdrop-filter:blur(8px);
+    margin-bottom:25px;
+}
+
+/* NOTIFICATION */
+.notif-card{
+    background:rgba(255,255,255,0.12);
+    border-radius:20px;
+    padding:25px;
+    backdrop-filter:blur(8px);
+}
+
+.notif-card h3{
+    margin-bottom:15px;
+}
+
+#notifList{
+    list-style:none;
+}
+
+#notifList li{
+    background:rgba(255,255,255,0.08);
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+/* IFRAME */
+#contentFrame{
+    width:100%;
+    height:95vh;
+    border:none;
+    border-radius:20px;
+    display:none;
+    background:transparent;
+}
+
+/* DARK MODE */
+.dark{
+    background:#0f172a;
+}
+
+.dark .sidebar{
+    background:rgba(15,23,42,0.95);
+}
+
+.dark .card,
+.dark .chart-card,
+.dark .notif-card{
+    background:rgba(255,255,255,0.08);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2>🏖️ Resort</h2>
+
+    <p id="roleText"></p>
+
+    <!-- DASHBOARD -->
+    <a href="#" onclick="showDashboard()">
+        Dashboard
+    </a>
+
+    <!-- ROOMS -->
+    <a href="#" onclick="loadPage('pages/rooms.html')">
+        Rooms
+    </a>
+
+    <!-- SERVICES -->
+    <a href="#" onclick="loadPage('pages/services.html')">
+        Services
+    </a>
+
+    <!-- STAFF -->
+    <a href="#" onclick="loadPage('pages/staff-management.html')">
+        Staff Management
+    </a>
+
+    <!-- REPORTS -->
+    <a href="#" onclick="loadPage('pages/reports.html')">
+        Reports
+    </a>
+
+    <!-- MAINTENANCE -->
+    <a href="#" onclick="loadPage('pages/maintenance.html')">
+        Maintenance
+    </a>
+
+    <!-- LOGOUT -->
+    <a href="#" onclick="logout()">
+        Logout
+    </a>
+
+    <!-- DARK MODE -->
+    <button onclick="toggleDark()">
+        🌙 Dark Mode
+    </button>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- DASHBOARD -->
+    <div id="dashboardContent">
+
+        <h1>Dashboard Overview</h1>
+
+        <!-- CARDS -->
+        <div class="cards">
+
+            <div class="card">
+                <h2 id="totalRooms">0</h2>
+                <p>Rooms</p>
+            </div>
+
+            <div class="card">
+                <h2 id="totalBookings">0</h2>
+                <p>Reservations</p>
+            </div>
+
+            <div class="card">
+                <h2 id="totalGuests">0</h2>
+                <p>Guests</p>
+            </div>
+
+        </div>
+
+        <!-- CHART -->
+        <div class="chart-card">
+            <canvas id="bookingChart"></canvas>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="notif-card">
+
+            <h3>Notifications</h3>
+
+            <ul id="notifList"></ul>
+
+        </div>
+
+    </div>
+
+    <!-- DYNAMIC CONTENT -->
+    <iframe id="contentFrame"></iframe>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+/* AUTH */
+const role = localStorage.getItem("role");
+const username = localStorage.getItem("username");
+
+if(!role){
+    window.location.href = "login.html";
+}
+
+/* SHOW USER */
+document.getElementById("roleText").innerText =
+`👑 ${role} (${username})`;
+
+/* LOGOUT */
+function logout(){
+    localStorage.clear();
+    window.location.href = "login.html";
+}
+
+/* LOAD PAGES */
+function loadPage(page){
+
+    document.getElementById("dashboardContent").style.display = "none";
+
+    const frame = document.getElementById("contentFrame");
+
+    frame.style.display = "block";
+    frame.src = page;
+}
+
+/* SHOW DASHBOARD */
+function showDashboard(){
+
+    document.getElementById("contentFrame").style.display = "none";
+
+    document.getElementById("dashboardContent").style.display = "block";
+}
+
+/* DARK MODE */
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+
+/* LOAD STATS */
+async function loadStats(){
+
+    try{
+
+        const rooms =
+        await (await fetch(`${API}/Rooms`)).json();
+
+        const reservations =
+        await (await fetch(`${API}/Reservations`)).json();
+
+        const guests =
+        await (await fetch(`${API}/Guests`)).json();
+
+        document.getElementById("totalRooms").innerText =
+        rooms.length;
+
+        document.getElementById("totalBookings").innerText =
+        reservations.length;
+
+        document.getElementById("totalGuests").innerText =
+        guests.length;
+
+    }
+    catch(err){
+
+        console.error(err);
+
+        addNotification("⚠ Failed to load dashboard data");
+
+    }
+}
+
+/* CHART */
+function loadChart(){
+
+    new Chart(document.getElementById('bookingChart'), {
+
+        type:'bar',
+
+        data:{
+            labels:['Mon','Tue','Wed','Thu','Fri'],
+
+            datasets:[{
+                label:'Reservations',
+                data:[5,10,7,12,9],
+                backgroundColor:'rgba(0,188,212,0.5)'
+            }]
+        },
+
+        options:{
+            responsive:true,
+
+            plugins:{
+                legend:{
+                    labels:{
+                        color:'white'
+                    }
+                }
+            },
+
+            scales:{
+                x:{
+                    ticks:{ color:'white' }
+                },
+
+                y:{
+                    ticks:{ color:'white' }
+                }
+            }
+        }
+
+    });
+
+}
+
+/* NOTIFICATION */
+function addNotification(msg){
+
+    const li = document.createElement("li");
+
+    li.innerText = msg;
+
+    document.getElementById("notifList")
+    .appendChild(li);
+
+}
+
+/* INIT */
+addNotification("Welcome back, " + username + "!");
+
+loadStats();
+
+loadChart();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payments</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+
+.page-title{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.content{
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+/* FORM */
+.form-box{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.form-box label{
+    font-weight:600;
+}
+
+.form-box input,
+.form-box select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+/* BUTTON */
+button{
+    background:#00bcd4;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+button:hover{
+    background:#0097a7;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:rgba(255,255,255,0.15);
+    padding:15px;
+    text-align:left;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:#4caf50;
+    color:white;
+}
+
+.amount{
+    font-weight:bold;
+    color:#00e5ff;
+}
+
+/* BILL BOXES */
+.summary{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+}
+
+.summary-box{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:15px;
+}
+
+.summary-box h3{
+    font-size:14px;
+    margin-bottom:8px;
+    opacity:0.8;
+}
+
+.summary-box p{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.balance{
+    color:#ffeb3b;
+}
+
+.total{
+    color:#00e5ff;
+}
+
+.paid{
+    color:#4caf50;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="content">
+
+<h1 class="page-title">💳 Payment Management</h1>
+
+<!-- PAYMENT FORM -->
+<div class="card">
+
+    <h2>Payment</h2>
+
+    <div class="form-box">
+
+        <label>Reservation</label>
+
+        <select id="res" onchange="loadSummary()"></select>
+
+        <!-- SUMMARY -->
+        <div class="summary">
+
+            <div class="summary-box">
+                <h3>Total Bill</h3>
+                <p class="total" id="totalBill">₱0</p>
+            </div>
+
+            <div class="summary-box">
+                <h3>Paid Amount</h3>
+                <p class="paid" id="paidAmount">₱0</p>
+            </div>
+
+            <div class="summary-box">
+                <h3>Balance</h3>
+                <p class="balance" id="balance">₱0</p>
+            </div>
+
+        </div>
+
+        <label>Payment Amount</label>
+
+        <input
+        id="amount"
+        type="number"
+        placeholder="Enter Payment Amount">
+
+        <button onclick="pay()">
+            Pay Now
+        </button>
+
+    </div>
+
+</div>
+
+<!-- PAYMENT HISTORY -->
+<div class="card">
+
+    <h2>Payment History</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Reservation</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="table"></tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+const resDropdown =
+    document.getElementById("res");
+
+const amountInput =
+    document.getElementById("amount");
+
+const table =
+    document.getElementById("table");
+
+const totalBill =
+    document.getElementById("totalBill");
+
+const paidAmount =
+    document.getElementById("paidAmount");
+
+const balanceText =
+    document.getElementById("balance");
+
+// 🔐 SECURITY
+if(!localStorage.getItem("role")){
+    window.location.href = "../login.html";
+}
+
+// LOAD RESERVATIONS
+async function loadReservations(){
+
+    const res =
+        await fetch(`${API}/Reservations`);
+
+    const data =
+        await res.json();
+
+    resDropdown.innerHTML = data.map(r => `
+
+        <option value="${r.reservationID}">
+            Reservation #${r.reservationID}
+        </option>
+
+    `).join("");
+
+    loadSummary();
+}
+
+// LOAD PAYMENT SUMMARY
+async function loadSummary(){
+
+    const reservationId =
+        parseInt(resDropdown.value);
+
+    // GET INVOICE
+    const invoiceRes =
+        await fetch(`${API}/Invoices`);
+
+    const invoices =
+        await invoiceRes.json();
+
+    const invoice =
+        invoices.find(i =>
+            (i.reservationID || i.reservationId)
+            == reservationId
+        );
+
+    let total = 0;
+
+    if(invoice){
+        total =
+            invoice.totalAmount || 0;
+    }
+
+    // GET PAYMENTS
+    const payRes =
+        await fetch(`${API}/Payments`);
+
+    const payments =
+        await payRes.json();
+
+    const filtered =
+        payments.filter(p =>
+            (p.reservationID || p.reservationId)
+            == reservationId
+        );
+
+    let paid = 0;
+
+    filtered.forEach(p => {
+        paid += Number(p.amount);
+    });
+
+    const balance =
+        total - paid;
+
+    totalBill.innerText =
+        `₱${total.toLocaleString()}`;
+
+    paidAmount.innerText =
+        `₱${paid.toLocaleString()}`;
+
+    balanceText.innerText =
+        `₱${balance.toLocaleString()}`;
+}
+
+// LOAD TABLE
+async function load(){
+
+    const res =
+        await fetch(`${API}/Payments`);
+
+    const data =
+        await res.json();
+
+    table.innerHTML = data.map(p => `
+
+        <tr>
+
+            <td>
+                #${p.reservationID || p.reservationId}
+            </td>
+
+            <td class="amount">
+                ₱ ${p.amount}
+            </td>
+
+            <td>
+                ${new Date(
+                    p.paymentDate
+                ).toLocaleString()}
+            </td>
+
+            <td>
+
+                <span class="badge">
+
+                    Paid
+
+                </span>
+
+            </td>
+
+        </tr>
+
+    `).join("");
+}
+
+// PAY
+async function pay(){
+
+    const reservationId =
+        parseInt(resDropdown.value);
+
+    const amount =
+        parseFloat(amountInput.value);
+
+    if(!amount || amount <= 0){
+
+        alert("Enter valid payment");
+        return;
+    }
+
+    try{
+
+        const res =
+            await fetch(`${API}/Payments`,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                reservationID: reservationId,
+
+                amount: amount
+
+            })
+
+        });
+
+        const text =
+            await res.text();
+
+        if(!res.ok){
+
+            alert(text);
+            return;
+        }
+
+        alert("Payment successful!");
+
+        amountInput.value = "";
+
+        load();
+        loadSummary();
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Payment failed");
+
+    }
+}
+
+// INIT
+loadReservations();
+load();
+
+</script>
+
+</body>
+</html>

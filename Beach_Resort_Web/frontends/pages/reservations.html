@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reservations</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+.page-title{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.content{
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+button{
+    background:#00bcd4;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+    font-size:15px;
+}
+
+button:hover{
+    background:#0097a7;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table th{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    text-align:left;
+}
+
+table td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.pending{
+    background:orange;
+    color:white;
+}
+
+.completed{
+    background:#4caf50;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ✅ CONTENT ONLY (NO SIDEBAR) -->
+<div class="content">
+
+<h1 class="page-title">📋 Reservation Management</h1>
+
+<!-- CREATE RESERVATION -->
+<div class="card">
+
+    <h2>Create Reservation</h2>
+
+    <div class="form-group">
+        <label>Guest</label>
+        <select id="guest"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Room</label>
+        <select id="room"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Check-In</label>
+        <input type="date" id="checkin">
+    </div>
+
+    <div class="form-group">
+        <label>Check-Out</label>
+        <input type="date" id="checkout">
+    </div>
+
+    <button onclick="add()">Save Reservation</button>
+
+</div>
+
+<!-- RESERVATION LIST -->
+<div class="card">
+
+    <h2>Reservations</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody id="table"></tbody>
+    </table>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+const guest = document.getElementById("guest");
+const room = document.getElementById("room");
+const checkin = document.getElementById("checkin");
+const checkout = document.getElementById("checkout");
+const table = document.getElementById("table");
+
+// 🔐 SECURITY
+if (!localStorage.getItem("role")) {
+    window.location.href = "../login.html";
+}
+
+// 👤 LOAD GUESTS
+async function loadGuests(){
+
+    try{
+
+        const res = await fetch(`${API}/Guests`);
+        const data = await res.json();
+
+        guest.innerHTML = data.map(g => `
+            <option value="${g.id}">
+                ${g.fullName}
+            </option>
+        `).join("");
+
+    }catch(err){
+        console.error(err);
+    }
+}
+
+// 🏨 LOAD ROOMS
+async function loadRooms(){
+
+    try{
+
+        const res = await fetch(`${API}/Rooms`);
+        const data = await res.json();
+
+        room.innerHTML = data.map(r => `
+            <option value="${r.roomID}">
+                Room ${r.roomNumber} - ₱${r.price}
+            </option>
+        `).join("");
+
+    }catch(err){
+        console.error(err);
+    }
+}
+
+// 📋 LOAD RESERVATIONS
+async function load(){
+
+    try{
+
+        const reservations =
+            await (await fetch(`${API}/Reservations`)).json();
+
+        const guests =
+            await (await fetch(`${API}/Guests`)).json();
+
+        const rooms =
+            await (await fetch(`${API}/Rooms`)).json();
+
+        table.innerHTML = reservations.map(r => {
+
+            const g = guests.find(x => x.id === r.guestID);
+
+            const rm = rooms.find(x => x.roomID === r.roomID);
+
+            return `
+            <tr>
+
+                <td>${r.reservationID}</td>
+
+                <td>
+                    ${g ? g.fullName : "Unknown"}
+                </td>
+
+                <td>
+                    ${rm ? rm.roomNumber : "N/A"}
+                </td>
+
+                <td>
+                    ${formatDate(r.checkInDate)}
+                </td>
+
+                <td>
+                    ${formatDate(r.checkOutDate)}
+                </td>
+
+                <td>
+                    <span class="badge pending">
+                        ${r.status}
+                    </span>
+                </td>
+
+            </tr>
+            `;
+
+        }).join("");
+
+    }catch(err){
+
+        console.error("Load Error:", err);
+
+    }
+}
+
+// ➕ ADD RESERVATION
+async function add(){
+
+    if(
+        !guest.value ||
+        !room.value ||
+        !checkin.value ||
+        !checkout.value
+    ){
+        alert("Please complete all fields");
+        return;
+    }
+
+    try{
+
+        const res = await fetch(`${API}/Reservations`,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                guestID: parseInt(guest.value),
+
+                roomID: parseInt(room.value),
+
+                checkInDate: checkin.value,
+
+                checkOutDate: checkout.value,
+
+                status: "Pending"
+            })
+        });
+
+        if(!res.ok){
+
+            const err = await res.text();
+
+            console.error(err);
+
+            alert("Failed to save reservation");
+
+            return;
+        }
+
+        alert("Reservation saved!");
+
+        checkin.value = "";
+        checkout.value = "";
+
+        load();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
+
+// 📅 FORMAT DATE
+function formatDate(date){
+
+    return new Date(date).toLocaleDateString();
+
+}
+
+// INIT
+loadGuests();
+loadRooms();
+load();
+
+</script>
+
+</body>
+</html>

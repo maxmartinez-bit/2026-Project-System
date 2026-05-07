@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Check-In</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+
+.page-title{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.content{
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+/* FORM */
+.form-box{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.form-box label{
+    font-weight:600;
+}
+
+.form-box select{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+/* BUTTON */
+.btn-checkin{
+    background:#4caf50;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.btn-checkin:hover{
+    background:#2e7d32;
+}
+
+/* LIST */
+.list-box{
+    list-style:none;
+    padding:0;
+}
+
+.list-box li{
+    background:rgba(255,255,255,0.1);
+    margin:10px 0;
+    padding:15px;
+    border-radius:10px;
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:#4caf50;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ✅ NO SIDEBAR -->
+<div class="content">
+
+<h1 class="page-title">🏨 Guest Check-In</h1>
+
+<!-- CHECK-IN CARD -->
+<div class="card">
+
+    <h2>Select Reservation</h2>
+
+    <div class="form-box">
+
+        <label>Select Reservation</label>
+
+        <select id="reservation"></select>
+
+        <button class="btn-checkin" onclick="checkIn()">
+            ✅ Check-In Guest
+        </button>
+
+    </div>
+
+</div>
+
+<!-- RECENT CHECK-IN -->
+<div class="card">
+
+    <h2>Recent Check-Ins</h2>
+
+    <ul id="list" class="list-box"></ul>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+const reservation = document.getElementById("reservation");
+
+// 🔐 SECURITY
+if(!localStorage.getItem("role")){
+    window.location.href = "../login.html";
+}
+
+// 📥 LOAD RESERVATIONS
+async function loadReservations(){
+
+    try{
+
+        const reservations =
+            await (await fetch(`${API}/Reservations`)).json();
+
+        reservation.innerHTML = reservations.map(r => `
+
+            <option value="${r.reservationID}">
+
+                Reservation #${r.reservationID}
+                - Room ${r.roomID}
+
+            </option>
+
+        `).join("");
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+}
+
+// ➕ ADD TO LIST
+function addToList(text){
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+        <span class="badge">Checked-In</span>
+        <br><br>
+        ${text}
+    `;
+
+    document.getElementById("list").appendChild(li);
+}
+
+// ✅ CHECK-IN
+async function checkIn(){
+
+    try{
+
+        const reservationId = reservation.value;
+
+        // GET RESERVATION
+        const res =
+            await fetch(`${API}/Reservations/${reservationId}`);
+
+        const r = await res.json();
+
+        if(!r.roomID){
+
+            alert("No room assigned!");
+            return;
+        }
+
+        // GET ROOM
+        const roomRes =
+            await fetch(`${API}/Rooms/${r.roomID}`);
+
+        const room = await roomRes.json();
+
+        // UPDATE ROOM STATUS
+        await fetch(`${API}/Rooms/${r.roomID}`,{
+
+            method:"PUT",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                roomID: room.roomID,
+                roomNumber: room.roomNumber,
+                roomType: room.roomType,
+                price: room.price,
+                status: "Occupied"
+            })
+        });
+
+        addToList(`
+            Reservation #${r.reservationID}
+            checked-in successfully
+            (Room ${r.roomID})
+        `);
+
+        alert("Guest Checked-In!");
+
+        loadReservations();
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Check-In failed!");
+
+    }
+}
+
+// INIT
+loadReservations();
+
+</script>
+
+</body>
+</html>

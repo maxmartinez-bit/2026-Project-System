@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reservation Services</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+
+.page-title{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+/* FORM */
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-grid .full{
+    grid-column:span 2;
+}
+
+/* INPUTS */
+input,
+select{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    background:rgba(255,255,255,0.92);
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+/* BUTTON */
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#00bcd4;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#0097a7;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th{
+    background:rgba(255,255,255,0.12);
+    padding:15px;
+    text-align:left;
+}
+
+table td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* CARD */
+.card{
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- MAIN ONLY -->
+<div class="main">
+
+<h1 class="page-title">
+    🛎️ Reservation Services
+</h1>
+
+<!-- ADD SERVICE -->
+<div class="card">
+
+    <h2>Add Service to Reservation</h2>
+
+    <div class="form-grid">
+
+        <div class="full">
+            <label>Reservation</label>
+            <select id="reservation"></select>
+        </div>
+
+        <div class="full">
+            <label>Service</label>
+            <select id="service"></select>
+        </div>
+
+        <div class="full">
+            <label>Quantity</label>
+            <input id="qty" type="number" placeholder="Enter Quantity">
+        </div>
+
+        <div class="full">
+            <button class="btn" onclick="add()">
+                Add Service
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LIST -->
+<div class="card">
+
+    <h2>Added Services</h2>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Reservation</th>
+                <th>Service</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody id="table"></tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<script>
+
+const API =
+    "http://localhost:5158/api";
+
+// LOAD DROPDOWNS
+async function loadDropdowns(){
+
+    try{
+
+        const reservations =
+        await (
+            await fetch(`${API}/Reservations`)
+        ).json();
+
+        const services =
+        await (
+            await fetch(`${API}/Services`)
+        ).json();
+
+        const reservationSelect =
+            document.getElementById(
+                "reservation"
+            );
+
+        const serviceSelect =
+            document.getElementById(
+                "service"
+            );
+
+        reservationSelect.innerHTML =
+            reservations.map(r => `
+                <option value="${r.reservationID || r.id}">
+                    Reservation #${r.reservationID || r.id}
+                </option>
+            `).join("");
+
+        serviceSelect.innerHTML =
+            services.map(s => `
+                <option
+                    value="${s.serviceID || s.id}"
+                    data-price="${s.price}"
+                >
+                    ${s.serviceName}
+                    (₱${s.price})
+                </option>
+            `).join("");
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+            "Failed to load dropdown data"
+        );
+    }
+}
+
+// LOAD TABLE
+async function loadTable(){
+
+    try{
+
+        const data =
+        await (
+            await fetch(`${API}/ReservationServices`)
+        ).json();
+
+        const services =
+        await (
+            await fetch(`${API}/Services`)
+        ).json();
+
+        const table =
+            document.getElementById(
+                "table"
+            );
+
+        table.innerHTML =
+            data.map(d => {
+
+            const s =
+                services.find(
+                    x =>
+                    (x.serviceID || x.id)
+                    ==
+                    d.serviceId
+                );
+
+            return `
+            <tr>
+
+                <td>
+                    #${d.reservationId}
+                </td>
+
+                <td>
+                    ${s
+                    ?
+                    s.serviceName
+                    :
+                    "Unknown"}
+                </td>
+
+                <td>
+                    ${d.quantity}
+                </td>
+
+                <td>
+                    ₱ ${d.totalPrice}
+                </td>
+
+            </tr>
+            `;
+
+        }).join("");
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+            "Failed to load services table"
+        );
+    }
+}
+
+// ADD
+async function add(){
+
+    const reservationSelect =
+        document.getElementById(
+            "reservation"
+        );
+
+    const serviceSelect =
+        document.getElementById(
+            "service"
+        );
+
+    const qtyInput =
+        document.getElementById(
+            "qty"
+        );
+
+    const reservationId =
+        reservationSelect.value;
+
+    const serviceId =
+        serviceSelect.value;
+
+    const quantity =
+        Number(qtyInput.value);
+
+    const selectedService =
+        serviceSelect.options[
+            serviceSelect.selectedIndex
+        ];
+
+    const price =
+        Number(
+            selectedService.getAttribute(
+                "data-price"
+            )
+        );
+
+    if(
+        reservationId === "" ||
+        serviceId === "" ||
+        qtyInput.value.trim() === "" ||
+        quantity <= 0
+    ){
+
+        alert(
+            "Please fill all fields"
+        );
+
+        return;
+    }
+
+    const total =
+        price * quantity;
+
+    try{
+
+        const res =
+        await fetch(
+            `${API}/ReservationServices`,
+        {
+            method:"POST",
+
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+
+            body:JSON.stringify({
+
+                reservationId:
+                    parseInt(
+                        reservationId
+                    ),
+
+                serviceId:
+                    parseInt(
+                        serviceId
+                    ),
+
+                quantity:
+                    quantity,
+
+                totalPrice:
+                    total
+            })
+        });
+
+        if(!res.ok){
+
+            const text =
+            await res.text();
+
+            throw new Error(text);
+        }
+
+        qtyInput.value = "";
+
+        alert(
+            "Service added successfully ✅"
+        );
+
+        loadTable();
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+            "Error adding service"
+        );
+    }
+}
+
+// INIT
+loadDropdowns();
+loadTable();
+
+</script>
+
+</body>
+</html>

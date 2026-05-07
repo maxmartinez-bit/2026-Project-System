@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Invoices</title>
+<link rel="stylesheet" href="../../css/style.css">
+
+<style>
+
+.page-title{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+.content{
+    width:100%;
+    padding:20px;
+    color:white;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:rgba(255,255,255,0.15);
+    padding:15px;
+    text-align:left;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:#4caf50;
+    color:white;
+}
+
+.total{
+    font-weight:bold;
+    color:#00e5ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ✅ NO SIDEBAR -->
+<div class="content">
+
+<h1 class="page-title">🧾 Invoice Management</h1>
+
+<!-- INVOICE LIST -->
+<div class="card">
+
+    <h2>Invoices</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Invoice ID</th>
+                <th>Reservation</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="table"></tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://localhost:5158/api";
+
+const table = document.getElementById("table");
+
+// 🔐 SECURITY
+if(!localStorage.getItem("role")){
+    window.location.href = "../login.html";
+}
+
+// 📥 LOAD INVOICES
+async function load(){
+
+    try{
+
+        const res =
+            await fetch(`${API}/Invoices`);
+
+        const data =
+            await res.json();
+
+        table.innerHTML = data.map(i => `
+
+            <tr>
+
+                <td>
+                    #${i.id || i.invoiceID}
+                </td>
+
+                <td>
+                    #${i.reservationId || i.reservationID}
+                </td>
+
+                <td class="total">
+                    ₱ ${i.total || i.totalAmount}
+                </td>
+
+                <td>
+                    <span class="badge">
+                        Paid
+                    </span>
+                </td>
+
+            </tr>
+
+        `).join("");
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("Failed to load invoices");
+
+    }
+}
+
+// INIT
+load();
+
+</script>
+
+</body>
+</html>

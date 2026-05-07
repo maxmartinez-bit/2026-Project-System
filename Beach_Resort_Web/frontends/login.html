@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Beach Resort Login</title>
+<link rel="icon" type="image/png" href="../image/logo.png">
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')
+    no-repeat center/cover;
+}
+
+.login-box{
+    width:320px;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+    color:white;
+    animation:fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    50%{transform:translateX(5px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
+}
+
+.shake{
+    animation:shake 0.3s;
+}
+
+/* INPUT GROUP */
+.input-group{
+    position:relative;
+    margin:20px 0;
+    width:100%;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    box-sizing:border-box;
+    font-size:14px;
+}
+
+/* LABEL */
+.input-group label{
+    position:absolute;
+    left:10px;
+    top:12px;
+    color:gray;
+    transition:0.3s;
+    pointer-events:none;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label{
+
+    top:-10px;
+    font-size:12px;
+    color:#00e5ff;
+}
+
+/* PASSWORD EYE */
+.toggle-eye{
+    position:absolute;
+    right:10px;
+    top:12px;
+    cursor:pointer;
+    font-size:14px;
+    color:#333;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#00bcd4;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+    font-size:15px;
+}
+
+button:hover{
+    background:#0097a7;
+}
+
+/* BADGE */
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    background:rgba(0,0,0,0.3);
+    border-radius:20px;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+/* REMEMBER */
+.remember{
+    font-size:13px;
+    margin-top:-10px;
+}
+
+/* FOOTER */
+.footer{
+    margin-top:15px;
+    font-size:11px;
+    text-align:center;
+    color:#ddd;
+}
+
+/* ERROR */
+.error{
+    color:#ff6b6b;
+    font-size:13px;
+    margin-top:10px;
+    text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-box" id="box">
+
+    <div class="badge">
+        👤 Resort Management Login
+    </div>
+
+    <h2>🏖️ Beach Resort</h2>
+
+    <!-- USERNAME -->
+    <div class="input-group">
+
+        <input id="username"
+        placeholder=" ">
+
+        <label>
+            Username
+        </label>
+
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="input-group">
+
+        <input id="password"
+        type="password"
+        placeholder=" ">
+
+        <label>
+            Password
+        </label>
+
+        <span class="toggle-eye"
+        onclick="togglePassword()">
+
+            👁️
+
+        </span>
+
+    </div>
+
+    <!-- REMEMBER -->
+    <div class="remember">
+
+        <input type="checkbox"
+        id="remember">
+
+        Remember me
+
+    </div>
+
+    <!-- LOGIN -->
+    <button onclick="login()">
+
+        Login
+
+    </button>
+
+    <!-- ERROR -->
+    <p id="errorMsg"
+    class="error"></p>
+
+    <div class="footer">
+        Authorized personnel only
+    </div>
+
+</div>
+
+<script>
+
+// 👁️ SHOW/HIDE PASSWORD
+function togglePassword(){
+
+    const pass =
+        document.getElementById("password");
+
+    pass.type =
+        pass.type === "password"
+        ? "text"
+        : "password";
+}
+
+// 🔁 AUTO LOAD SAVED USER
+window.onload = function(){
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(
+                "rememberUser"
+            )
+        );
+
+    if(saved){
+
+        document.getElementById(
+            "username"
+        ).value = saved.username;
+
+        document.getElementById(
+            "remember"
+        ).checked = true;
+    }
+};
+
+// 🔐 LOGIN
+async function login(){
+
+    const usernameInput =
+        document.getElementById(
+            "username"
+        );
+
+    const passwordInput =
+        document.getElementById(
+            "password"
+        );
+
+    const remember =
+        document.getElementById(
+            "remember"
+        );
+
+    const errorMsg =
+        document.getElementById(
+            "errorMsg"
+        );
+
+    const box =
+        document.getElementById(
+            "box"
+        );
+
+    const username =
+        usernameInput.value;
+
+    const password =
+        passwordInput.value;
+
+    errorMsg.innerText = "";
+
+    // VALIDATION
+    if(!username || !password){
+
+        errorMsg.innerText =
+            "Please enter username and password";
+
+        return;
+    }
+
+    try{
+
+        const res =
+        await fetch(
+            "http://localhost:5158/api/user/login",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+
+                username,
+                password
+
+            })
+        });
+
+        if(!res.ok)
+            throw new Error();
+
+        const data =
+            await res.json();
+
+        // 💾 REMEMBER USER
+        if(remember.checked){
+
+            localStorage.setItem(
+                "rememberUser",
+
+                JSON.stringify({
+                    username
+                })
+            );
+
+        }else{
+
+            localStorage.removeItem(
+                "rememberUser"
+            );
+        }
+
+        // SESSION
+        localStorage.setItem(
+            "role",
+            data.role
+        );
+
+        localStorage.setItem(
+            "username",
+            data.username
+        );
+
+        // REDIRECT
+        if(
+            data.role.toLowerCase()
+            === "admin"
+        ){
+
+            window.location.href =
+                "admin-dashboard.html";
+
+        }else{
+
+            window.location.href =
+                "staff-dashboard.html";
+        }
+
+    }catch{
+
+        box.classList.add("shake");
+
+        setTimeout(() => {
+
+            box.classList.remove("shake");
+
+        },300);
+
+        errorMsg.innerText =
+            "Invalid credentials";
+
+        // CLEAR INPUTS
+        usernameInput.value = "";
+        passwordInput.value = "";
+
+        usernameInput.focus();
+    }
+}
+
+</script>
+
+</body>
+</html>
