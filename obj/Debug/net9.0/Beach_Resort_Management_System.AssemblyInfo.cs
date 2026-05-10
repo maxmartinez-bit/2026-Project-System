@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Beach_Resort_Management_System")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57a331f1f452053a21cbef9e6bb3809a56dbab7c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e86ff08897a1abd3f8428089815d500ed793c6b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Beach_Resort_Management_System")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Beach_Resort_Management_System")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

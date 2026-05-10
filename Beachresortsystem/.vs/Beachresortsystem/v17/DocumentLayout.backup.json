@@ -1,0 +1,632 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Desktop\\sql\\Beachresortsystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\payments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\payments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\staff-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\staff-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\admin-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\admin-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reports.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reports.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\staff_management.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\staff_management.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\maintenance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\maintenance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\guests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\guests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\check-out.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\check-out.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\guests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\guests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservation_services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservation_services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\check-in.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\check-in.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|c:\\desktop\\sql\\beachresortsystem\\beachresortsystem\\check-in.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\check-in.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|c:\\desktop\\sql\\beachresortsystem\\beachresortsystem\\payments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\payments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|c:\\desktop\\sql\\beachresortsystem\\beachresortsystem\\invoicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\invoicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservation_services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservation_services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\paymentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\paymentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservationmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservationmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\staff-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\staff-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\admin-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\admin-dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reservationservicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reservationservicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\guestsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\guestsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\reports.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\reports.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\maintenancemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\maintenancemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\maintenance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\maintenance.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\staff_management.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\staff_management.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\services.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\servicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\servicemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|C:\\Desktop\\sql\\Beachresortsystem\\beachresortsystem\\roommodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{15592704-A176-4090-98EB-F51A8EEDF227}|Beachresortsystem\\Beachresortsystem.csproj|solutionrelative:beachresortsystem\\roommodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Reports.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reports.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reports.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reports.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Reports.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:10:26.04Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Reservation.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reservation.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Reservation.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:36:04.564Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Admin-dashboard.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Admin-dashboard.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Admin-dashboard.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Admin-dashboard.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Admin-dashboard.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T11:17:31.19Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Staff-Dashboard.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff-Dashboard.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Staff-Dashboard.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff-Dashboard.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Staff-Dashboard.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:25:54.409Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Payments.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Payments.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Payments.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Payments.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Payments.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T05:27:09.151Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Staff_Management.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff_Management.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Staff_Management.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff_Management.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Staff_Management.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:02:10.691Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Services.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Services.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Services.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Services.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Services.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T23:42:50.226Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Rooms.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Rooms.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Rooms.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Rooms.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Rooms.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T16:50:49.601Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Maintenance.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Maintenance.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Maintenance.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Maintenance.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Maintenance.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:18:59.509Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Login.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Login.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Login.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Login.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Login.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T12:06:49.754Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Guests.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Guests.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Guests.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Guests.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Guests.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T00:31:36.836Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Check-Out.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-Out.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Check-Out.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-Out.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Check-Out.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T05:37:09.072Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Guests.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Guests.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Guests.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Guests.cs",
+              "RelativeToolTip": "Beachresortsystem\\Guests.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA6wCsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T08:39:59.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Reservation_Services.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation_Services.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reservation_Services.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation_Services.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Reservation_Services.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T01:19:20.127Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Check-In.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-In.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Check-In.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-In.cs",
+              "RelativeToolTip": "Beachresortsystem\\Check-In.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAUwBYAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T14:37:40.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Check-In.cs [Design]",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-In.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Check-In.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Check-In.cs [Design]",
+              "RelativeToolTip": "Beachresortsystem\\Check-In.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T08:24:12.017Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reservation.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation.cs",
+              "RelativeToolTip": "Beachresortsystem\\Reservation.cs",
+              "ViewState": "AgIAALkAAAAAAAAAAAAQwNAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T09:02:00.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ReservationModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ReservationModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\ReservationModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ReservationModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\ReservationModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T01:29:01.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Reservation_Services.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation_Services.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reservation_Services.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reservation_Services.cs",
+              "RelativeToolTip": "Beachresortsystem\\Reservation_Services.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAhwDYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:42:29.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Payments.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Payments.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Payments.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Payments.cs",
+              "RelativeToolTip": "Beachresortsystem\\Payments.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAiwMIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T02:36:54.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "InvoiceModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\InvoiceModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\InvoiceModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\InvoiceModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\InvoiceModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T02:35:16.028Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "PaymentModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\PaymentModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\PaymentModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\PaymentModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\PaymentModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T07:00:43.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Staff-Dashboard.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff-Dashboard.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Staff-Dashboard.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff-Dashboard.cs",
+              "RelativeToolTip": "Beachresortsystem\\Staff-Dashboard.cs",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAawIIAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T08:04:44.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Admin-dashboard.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Admin-dashboard.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Admin-dashboard.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Admin-dashboard.cs",
+              "RelativeToolTip": "Beachresortsystem\\Admin-dashboard.cs",
+              "ViewState": "AgIAANgAAAAAAAAAAADwv2IAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T06:07:09.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ReservationServiceModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ReservationServiceModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\ReservationServiceModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ReservationServiceModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\ReservationServiceModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T10:57:07.678Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Reports.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reports.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Reports.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Reports.cs",
+              "RelativeToolTip": "Beachresortsystem\\Reports.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T06:51:41.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "GuestsModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\GuestsModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\GuestsModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\GuestsModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\GuestsModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T08:40:59.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Login.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Login.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Login.cs",
+              "RelativeToolTip": "Beachresortsystem\\Login.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAswE0AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T04:13:43.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Maintenance.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Maintenance.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Maintenance.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Maintenance.cs",
+              "RelativeToolTip": "Beachresortsystem\\Maintenance.cs",
+              "ViewState": "AgIAALoAAAAAAAAAAAAIwNoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T07:11:27.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "MaintenanceModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\MaintenanceModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\MaintenanceModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\MaintenanceModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\MaintenanceModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T07:13:16.387Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Staff_Management.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff_Management.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Staff_Management.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Staff_Management.cs",
+              "RelativeToolTip": "Beachresortsystem\\Staff_Management.cs",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAcwJcAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T06:37:36.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "UserModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\UserModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\UserModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\UserModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\UserModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T06:41:12.616Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Services.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Services.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Services.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Services.cs",
+              "RelativeToolTip": "Beachresortsystem\\Services.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwB4AAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T07:51:45.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Rooms.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Rooms.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\Rooms.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\Rooms.cs",
+              "RelativeToolTip": "Beachresortsystem\\Rooms.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAlwFoAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T17:29:34.737Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ApiService.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\ApiService.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ApiService.cs",
+              "RelativeToolTip": "Beachresortsystem\\ApiService.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAgwEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T05:48:27.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "ServiceModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ServiceModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\ServiceModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\ServiceModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\ServiceModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T07:47:05.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "RoomModel.cs",
+              "DocumentMoniker": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\RoomModel.cs",
+              "RelativeDocumentMoniker": "Beachresortsystem\\RoomModel.cs",
+              "ToolTip": "C:\\Desktop\\sql\\Beachresortsystem\\Beachresortsystem\\RoomModel.cs",
+              "RelativeToolTip": "Beachresortsystem\\RoomModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T05:47:33.866Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -113,7 +113,72 @@ public async Task<ActionResult<Reservation>> Create(
 
         return Ok(existing);
     }
+     
+    [HttpPut("checkin/{id}")]
+public async Task<IActionResult> CheckIn(int id)
+{
+    var reservation =
+        await _context.Reservations
+        .FirstOrDefaultAsync(r =>
+            r.ReservationID == id);
 
+    if (reservation == null)
+        return NotFound("Reservation not found.");
+
+    // UPDATE STATUS
+    reservation.Status = "Checked-In";
+
+    // FIND ROOM
+    var room =
+        await _context.Rooms
+        .FirstOrDefaultAsync(r =>
+            r.RoomID == reservation.RoomID);
+
+    if (room != null)
+    {
+        room.Status = "Occupied";
+    }
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Guest checked-in successfully"
+    });
+}
+
+[HttpPut("checkout/{id}")]
+public async Task<IActionResult> CheckOut(int id)
+{
+    var reservation =
+        await _context.Reservations
+        .FirstOrDefaultAsync(r =>
+            r.ReservationID == id);
+
+    if (reservation == null)
+        return NotFound("Reservation not found.");
+
+    // UPDATE RESERVATION STATUS
+    reservation.Status = "Checked-Out";
+
+    // FIND ROOM
+    var room =
+        await _context.Rooms
+        .FirstOrDefaultAsync(r =>
+            r.RoomID == reservation.RoomID);
+
+    if (room != null)
+    {
+        room.Status = "Available";
+    }
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Guest checked-out successfully"
+    });
+}
     // DELETE
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
